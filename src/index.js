@@ -13,9 +13,6 @@ class Game
 	}
 
 	this.gl.clearColor (0.2, 0.4, 0.6, 1.0);
-	this.gl.clearDepth (1.0);
-	this.gl.enable (this.gl.DEPTH_TEST);
-	this.gl.depthFunc (this.gl.LEQUAL);
 	
 	this.program = new Program (this.gl);
 	this.program.add (this.gl, new Shader (
@@ -27,6 +24,7 @@ in vec4 position;
 void main ()
 {
 gl_Position = position;
+gl_PointSize = 100.0;
 }
 `
 	));
@@ -51,7 +49,7 @@ color = vec4 (1, 0, 0.5, 1);
 	
 	this.mesh = new Mesh (this.gl);
 	this.mesh.vertices.push (-1.0, -1.0, 0.0, 1.0, -1.0, 0.0, 0.0, 1.0, 0.0);
-	this.mesh.indices.push (0, 1, 3);
+	this.mesh.indices.push (0, 1, 2);
 	this.mesh.setup (this.gl);
 	
 	this.lastTime = 0;

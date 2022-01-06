@@ -29,6 +29,7 @@ class Mesh
 	gl.enableVertexAttribArray (0);
 	gl.bindVertexArray (this.vao);
 
-	gl.drawElements (gl.TRIANGLES, this.indices.length, gl.UNSIGNED_INT, 0);
+	// gl.drawElements (gl.POINTS, this.indices.length, gl.UNSIGNED_INT, 0);
+	gl.drawArrays (gl.POINTS, 0, 3);
     }
 }

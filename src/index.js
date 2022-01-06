@@ -21,7 +21,7 @@ class Game
 
 	this.camera = new Camera ();
 	this.camera.position = new Vec3(
-	    0.0, 0.0, -5.0
+	    0.0, 0.0, 0.0
 	);
 
 	// The programs, shaders, etc, probably don't even have to be
@@ -38,7 +38,7 @@ class Game
 
 	this.program.link (this.gl);
 	this.program.use (this.gl);
-
+	
 	this.program.setMatrix4 (
 	    this.gl, "projection", this.camera.projection (this.gl)
 	);

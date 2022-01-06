@@ -40,12 +40,12 @@ class Program
 
     setVec3 (gl, name, vec)
     {
-	gl.uniform3fv (gl.getUniformLocation (this.id, name), vec.raw)
+	gl.uniform3fv (gl.getUniformLocation (this.id, name), vec)
     }
     
     setMatrix4 (gl, name, matrix)
     {
-	gl.uniformMatrix4fv (gl.getUniformLocation (this.id, name), false, matrix.raw);
+	gl.uniformMatrix4fv (gl.getUniformLocation (this.id, name), false, matrix);
     }
     
     use (gl)

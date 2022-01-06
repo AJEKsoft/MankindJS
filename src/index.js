@@ -1,8 +1,13 @@
+function $ (id)
+{
+    return document.getElementById (id);
+}
+
 class Game
 {
     constructor ()
     {
-	this.canvas = document.getElementById ("canvas");
+	this.canvas = $ ("canvas");
 	this.canvas.width = window.innerWidth;
 	this.canvas.height = window.innerHeight;
 	this.gl = canvas.getContext ("webgl2");
@@ -16,32 +21,11 @@ class Game
 	
 	this.program = new Program (this.gl);
 	this.program.add (this.gl, new Shader (
-	    this.gl, this.gl.VERTEX_SHADER,
-	    `#version 300 es
-
-in vec4 position;
-
-void main ()
-{
-gl_Position = position;
-gl_PointSize = 100.0;
-}
-`
+	    this.gl, this.gl.VERTEX_SHADER, $ ("default.vs").text.trim ()
 	));
 
 	this.program.add (this.gl, new Shader (
-	    this.gl, this.gl.FRAGMENT_SHADER,
-	    `#version 300 es
-
-precision highp float;
-
-out vec4 color;
-
-void main ()
-{
-color = vec4 (1, 0, 0.5, 1);
-}
-`
+	    this.gl, this.gl.FRAGMENT_SHADER, $ ("default.fs").text.trim ()
 	));
 
 	this.program.link (this.gl);

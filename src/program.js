@@ -10,8 +10,7 @@ class Shader
 
 	if (!gl.getShaderParameter (this.id, gl.COMPILE_STATUS))
 	{
-	    console.log ("An error occured while compiling the shaders: "
-			 + gl.getShaderInfoLog (this.id));
+	    console.log (gl.getShaderInfoLog (this.id));
 	    gl.deleteShader (this.id);
 	}
     }
@@ -35,11 +34,15 @@ class Program
 
 	if (!gl.getProgramParameter (this.id, gl.LINK_STATUS))
 	{
-	    console.log ("An error occured while linking the program: "
-			 + gl.getProgramInfoLog (this.id));
+	    console.log (gl.getProgramInfoLog (this.id));
 	}
     }
 
+    setVec3 (gl, name, vec)
+    {
+	gl.uniform3fv (gl.getUniformLocation (this.id, name), vec.raw)
+    }
+    
     setMatrix4 (gl, name, matrix)
     {
 	gl.uniformMatrix4fv (gl.getUniformLocation (this.id, name), false, matrix.raw);

@@ -24,7 +24,7 @@ class Camera
 
     get right ()
     {
-	return this.lookAt.cross (this.up).normalized;
+	return this.lookat.cross (this.up).normalized;
     }
 
     get up ()
@@ -39,12 +39,12 @@ class Camera
 	);
     }
 
-    projection (canvas)
+    projection (gl)
     {
 	// Make this customizable later, i.e. the FOV and the near and
 	// far planes.
 	return Mat4Perspective (
-	    90, canvas.width / canvas.height, 0.01, 1000.0
+	    90, gl.drawingBufferWidth / gl.drawingBufferHeight, 0.01, 1000.0
 	);
     }
 }

@@ -21,7 +21,7 @@ class Game
 
 	this.camera = new Camera ();
 	this.camera.position = new Vec3(
-	    0.0, 0.0, 0.0  
+	    0.0, 0.0, -5.0
 	);
 
 	// The programs, shaders, etc, probably don't even have to be
@@ -38,13 +38,9 @@ class Game
 
 	this.program.link (this.gl);
 	this.program.use (this.gl);
-	
-	this.program.setMatrix4 (
-	    this.gl, "projection", this.camera.projection (this.canvas)
-	);
 
 	this.program.setMatrix4 (
-	    this.gl, "view", this.camera.view
+	    this.gl, "projection", this.camera.projection (this.gl)
 	);
 	
 	this.mesh = new Mesh (this.gl);
@@ -73,7 +69,12 @@ class Game
     
     render ()
     {
-	this.gl.clear (this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+	this.gl.clear (this.gl.COLOR_BUFFER_BIT);
+
+	this.program.setMatrix4 (
+	    this.gl, "view", this.camera.view
+	);
+	
 	this.mesh.render (this.gl);
     }
 }

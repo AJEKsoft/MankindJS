@@ -39,6 +39,14 @@ class Game
 	this.program.link (this.gl);
 	this.program.use (this.gl);
 	
+	this.program.setMatrix4 (
+	    this.gl, "projection", this.camera.projection (this.canvas)
+	);
+
+	this.program.setMatrix4 (
+	    this.gl, "view", this.camera.view
+	);
+	
 	this.mesh = new Mesh (this.gl);
 	this.mesh.vertices.push (-1.0, -1.0, 0.0, 1.0, -1.0, 0.0, 0.0, 1.0, 0.0);
 	this.mesh.indices.push (0, 1, 2);

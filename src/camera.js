@@ -44,7 +44,7 @@ class Camera
 	// Make this customizable later, i.e. the FOV and the near and
 	// far planes.
 	return Mat4Perspective (
-	    90, 1.0 * canvas.width / canvas.height, 0.01, 1000.0
+	    90, canvas.width / canvas.height, 0.01, 1000.0
 	);
     }
 }

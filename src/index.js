@@ -18,6 +18,14 @@ class Game
 	}
 
 	this.gl.clearColor (0.2, 0.4, 0.6, 1.0);
+
+	this.camera = new Camera ();
+	this.camera.position = new Vec3(
+	    0.0, 0.0, 0.0  
+	);
+
+	// The programs, shaders, etc, probably don't even have to be
+	// functions---maybe except for Program.
 	
 	this.program = new Program (this.gl);
 	this.program.add (this.gl, new Shader (

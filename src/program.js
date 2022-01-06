@@ -36,10 +36,15 @@ class Program
 	if (!gl.getProgramParameter (this.id, gl.LINK_STATUS))
 	{
 	    console.log ("An error occured while linking the program: "
-			 + gl.getShaderInfoLog (this.id));
+			 + gl.getProgramInfoLog (this.id));
 	}
     }
 
+    setMatrix4 (gl, name, matrix)
+    {
+	gl.uniformMatrix4fv (gl.getUniformLocation (this.id, name), false, matrix.raw);
+    }
+    
     use (gl)
     {
 	gl.useProgram (this.id);

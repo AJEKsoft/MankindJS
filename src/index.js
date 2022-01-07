@@ -20,7 +20,7 @@ class Game
 	    console.log ("Unable to initialize WebGL.");
 	}
 
-
+	this.gl.enable (this.gl.DEPTH_TEST)
 	this.gl.clearColor (0.2, 0.4, 0.6, 1.0);
 
 	this.camera = new Camera ();

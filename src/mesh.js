@@ -51,37 +51,6 @@ class IndexMesh extends VertexMesh
     }
 }
 
-class CubeMesh extends IndexMesh
-{
-    constructor (gl)
-    {
-	super (gl);
-
-	this.vertices = [
-	    -1, -1, -1,
-	    +1, -1, -1,
-	    +1, +1, -1,
-	    -1, +1, -1,
-  	    -1, -1, +1,
-	    +1, -1, +1,
-	    +1, +1, +1,
-	    -1, +1, +1
-	];
-
-	this.indices = [
-	    0, 1, 3, 3, 1, 2,
-	    1, 5, 2, 2, 5, 6,
-	    5, 4, 6, 6, 4, 7,
-	    4, 0, 7, 7, 0, 3,
-	    3, 2, 7, 7, 2, 6,
-	    4, 5, 0, 0, 5, 1
-	];
-
-	this.setup (gl);
-    }
-}
-
-
 class ChunkMesh extends VertexMesh
 {
     constructor (gl)
@@ -89,12 +58,6 @@ class ChunkMesh extends VertexMesh
 	super (gl);
 
 	this.colors = new Array ();
-
-	// this.cbo = gl.createBuffer ();
-	// gl.bindBuffer (gl.ARRAY_BUFFER, this.cbo);
-
-	// gl.enableVertexAttribArray (1);
-	// gl.vertexAttribPointer (1, 3, gl.FLOAT, false, 0, 0);
     }
 
     generate (gl, chunk)
@@ -119,7 +82,6 @@ class ChunkMesh extends VertexMesh
     setup (gl)
     {
 	gl.bufferData (gl.ARRAY_BUFFER, new Float32Array (this.vertices), gl.STATIC_DRAW);
-	gl.bufferData (gl.ARRAY_BUFFER, new Float32Array (this.colors), gl.STATIC_DRAW);
     }
     
     render (gl)

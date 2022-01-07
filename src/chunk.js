@@ -1,11 +1,11 @@
-const CHUNK_DIM = 8;
+const CHUNK_DIM = 16;
 const CHUNK_SIZE = CHUNK_DIM * CHUNK_DIM * CHUNK_DIM
 
 class Voxel
 {
     constructor (color)
     {
-	this.color = color;
+	this.color = color;	// 0-255
     }
 }
 
@@ -26,7 +26,7 @@ class Chunk
 	for (let i = 0; i < CHUNK_SIZE; ++i)
 	{
 	    this.blocks[i] = new Voxel(
-		new Vec3 (Math.random (), Math.random (), Math.random ())
+		Math.random () * 255
 	    );
 	}
     }

@@ -1,6 +1,6 @@
 class Vec3 extends Float32Array
 {
-    constructor (x = 0.0, y = x, z = 0.0)
+    constructor (x = 0.0, y = x, z = y)
     {
 	super ([x, y, z]);
     }
@@ -10,14 +10,29 @@ class Vec3 extends Float32Array
 	return this[0];
     }
 
+    set x (value)
+    {
+	this[0] = value;
+    }
+
     get y ()
     {
 	return this[1];
     }
 
+    set y (value)
+    {
+	this[1] = value;
+    }
+    
     get z ()
     {
 	return this[2];
+    }
+
+    set z (value)
+    {
+	this[2] = value;
     }
     
     get length ()
@@ -36,6 +51,11 @@ class Vec3 extends Float32Array
 	{
 	    return new Vec3 ();
 	}
+    }
+
+    get negated ()
+    {
+	return this.multiply (new Vec3(-1));
     }
     
     add (other)
@@ -88,14 +108,14 @@ class Mat4 extends Float32Array
 		 m20 = 0.0, m21 = 0.0, m22 = 1.0, m23 = 0.0,
 		 m30 = 0.0, m31 = 0.0, m32 = 0.0, m33 = 1.0)
     {
-	super ([m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30,
-	       m31, m32, m33]);
+	super ([m00, m10, m20, m30, m01, m11, m21, m31, m02, m12, m22, m32,
+		m03, m13, m23, m33]);
     }
 }
 
 function Mat4LookAt (from, to, up)
 {
-    let z = to.subtract (from).normalized.multiply (new Vec3 (-1));
+    let z = to.subtract (from).normalized.negated
     let x = up.cross (z).normalized;
     let y = z.cross (x);
 
@@ -112,9 +132,9 @@ function Mat4Perspective (vfovdeg, aspect, near, far)
     let f = 1.0 / Math.tan (vfovrad / 2.0);
     
     return new Mat4 (
-	f / aspect, 0.0, 0.0, 0.0,
-	0.0, f, 0.0, 0.0,
-	0.0, 0.0, (far + near) / (near - far), (2 * far * near) / (near - far),
-	0, 0, -1, 0
+	f / aspect, 0.0, 0.0,                         0.0,
+	0.0,        f,   0.0,                         0.0,
+	0.0,        0.0, (far + near) / (near - far), (2 * far * near) / (near - far),
+	0.0,        0.0, -1.0,                        0.0
     );
 }

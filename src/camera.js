@@ -6,25 +6,13 @@ class Camera
 	this.rotation = new Vec3 ();
     }
 
-    get forward ()
-    {
-	return new Vec3 (
-	    Math.sin (this.rotation.x), 0, Math.cos (this.rotation.x)
-	);
-    }
-
-    get lookat ()
+    get direction ()
     {
 	return new Vec3 (
 	    Math.sin (this.rotation.x) * Math.cos (this.rotation.y),
 	    Math.sin (this.rotation.y),
 	    Math.cos (this.rotation.x) * Math.cos (this.rotation.y)
 	).normalized;
-    }
-
-    get right ()
-    {
-	return this.lookat.cross (this.up).normalized;
     }
 
     get up ()
@@ -35,7 +23,7 @@ class Camera
     get view ()
     {
 	return Mat4LookAt (
-	    this.position, this.position.add (this.lookat), this.up
+	    this.position, this.position.add (this.direction), this.up
 	);
     }
 

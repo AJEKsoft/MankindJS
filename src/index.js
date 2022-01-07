@@ -10,6 +10,9 @@ class Game
 	this.canvas = $ ("canvas");
 	this.canvas.width = window.innerWidth;
 	this.canvas.height = window.innerHeight;
+
+	// GL crap.
+	
 	this.gl = canvas.getContext ("webgl2");
 
 	if (this.gl == null)
@@ -21,7 +24,7 @@ class Game
 
 	this.camera = new Camera ();
 	this.camera.position = new Vec3(
-	    0.0, 0.0, 0.0
+	    0.0, 0.0, -5.0
 	);
 
 	// The programs, shaders, etc, probably don't even have to be
@@ -42,11 +45,27 @@ class Game
 	this.program.setMatrix4 (
 	    this.gl, "projection", this.camera.projection (this.gl)
 	);
+
+	this.program.setMatrix4 (
+	    this.gl, "model", new Mat4 ()
+	);
 	
 	this.mesh = new Mesh (this.gl);
 	this.mesh.vertices.push (-1.0, -1.0, 0.0, 1.0, -1.0, 0.0, 0.0, 1.0, 0.0);
 	this.mesh.indices.push (0, 1, 2);
 	this.mesh.setup (this.gl);
+
+	// Done with GL crap.
+
+	this.canvas.onclick = this.onclick.bind (this);
+	this.canvas.onmousemove = this.onmousemove.bind (this);
+	this.canvas.onkeyup = this.onkeyup.bind (this);
+	this.canvas.onkeydown = this.onkeydown.bind (this);
+
+	this.wpressed = false;
+	this.spressed = false;
+	this.apressed = false;
+	this.dpressed = false; 	// :-(
 	
 	this.lastTime = 0;
 	this.deltaTime = 0;
@@ -65,6 +84,22 @@ class Game
     {
 	this.deltaTime = (timestamp - this.lastTime);
 	this.lastTime = timestamp;
+
+	if (this.wpressed) {
+	    this.camera.position = this.camera.position.add (
+		this.camera.direction.multiply (new Vec3 (this.deltaTime / 10000))
+	    );
+	} else if (this.spressed) {
+	    this.camera.position = this.camera.position.subtract (
+		this.camera.direction.multiply (new Vec3 (this.deltaTime / 10000))
+	    );	    
+	}
+
+	if (this.apressed) {
+	    
+	} else if (this.dpressed) {
+	    
+	}
     }
     
     render ()
@@ -76,6 +111,59 @@ class Game
 	);
 	
 	this.mesh.render (this.gl);
+    }
+
+    onclick (event)
+    {
+	this.canvas.requestPointerLock ();
+    }
+
+    onmousemove (event)
+    {
+	let x = event.movementX;
+	let y = event.movementY;
+
+	this.camera.rotation.x -= x * (this.deltaTime / 10000);
+	this.camera.rotation.y -= y * (this.deltaTime / 10000);
+    }
+
+    onkeyup (event)
+    {
+	switch (event.keycode)
+	{
+	    case 87:
+	    this.wpressed = false;
+	    break;
+	    case 83:
+	    this.spressed = false;
+	    break;
+	    case 65:
+	    this.apressed = false;
+	    break;
+	    case 68:
+	    this.dpressed = false;
+	    break;
+	}
+    }
+
+    onkeydown (event)
+    {
+	switch (event.keycode)
+	{
+	    case 87:
+	    console.log ("W is pressed")
+	    this.wpressed = true;
+	    break;
+	    case 83:
+	    this.spressed = true;
+	    break;
+	    case 65:
+	    this.apressed = true;
+	    break;
+	    case 68:
+	    this.dpressed = true;
+	    break;
+	}
     }
 }
 

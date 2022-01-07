@@ -20,6 +20,7 @@ class Game
 	    console.log ("Unable to initialize WebGL.");
 	}
 
+
 	this.gl.clearColor (0.2, 0.4, 0.6, 1.0);
 
 	this.camera = new Camera ();
@@ -42,18 +43,19 @@ class Game
 	this.program.link (this.gl);
 	this.program.use (this.gl);
 	
-	this.program.setMatrix4 (
+	this.program.setMat4 (
 	    this.gl, "projection", this.camera.projection (this.gl)
 	);
 
-	this.program.setMatrix4 (
+	this.program.setMat4 (
 	    this.gl, "model", new Mat4 ()
 	);
+
+	let chunk = new Chunk ();
+	chunk.random ();
 	
-	this.mesh = new Mesh (this.gl);
-	this.mesh.vertices.push (-1.0, -1.0, 0.0, 1.0, -1.0, 0.0, 0.0, 1.0, 0.0);
-	this.mesh.indices.push (0, 1, 2);
-	this.mesh.setup (this.gl);
+	this.chunkmesh = new ChunkMesh (this.gl);
+	this.chunkmesh.generate (this.gl, chunk);
 
 	// Done with GL crap.
 
@@ -112,11 +114,15 @@ class Game
     {
 	this.gl.clear (this.gl.COLOR_BUFFER_BIT);
 
-	this.program.setMatrix4 (
+	this.program.setMat4 (
 	    this.gl, "view", this.camera.view
 	);
+
+	this.program.setVec3 (
+	    this.gl, "eye", this.camera.position
+	);
 	
-	this.mesh.render (this.gl);
+	this.chunkmesh.render (this.gl);
     }
 
     onclick (event)

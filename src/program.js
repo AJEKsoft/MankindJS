@@ -43,7 +43,7 @@ class Program
 	gl.uniform3fv (gl.getUniformLocation (this.id, name), vec)
     }
     
-    setMatrix4 (gl, name, matrix)
+    setMat4 (gl, name, matrix)
     {
 	gl.uniformMatrix4fv (gl.getUniformLocation (this.id, name), false, matrix);
     }

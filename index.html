@@ -23,15 +23,16 @@
       uniform mat4 model, view, projection;
       uniform vec3 eye;
 
-      const float pointsize = 75.0;
+      const float pointsize = 10.0;
+      const int chunksize = 32;
       
       void main ()
       {
 	  ivec3 pos = position;
 	  // hardcoded... make the 16 be an uniform or sum bull
-	  pos.z += gl_InstanceID % 16;
-	  pos.y += (gl_InstanceID / 16) % 16;
-	  pos.x += gl_InstanceID / (16 * 16);
+	  pos.z += gl_InstanceID % chunksize;
+	  pos.y += (gl_InstanceID / chunksize) % chunksize;
+	  pos.x += gl_InstanceID / (chunksize * chunksize);
 	  
 	  gl_Position = projection * view * model * vec4(pos, 1.0);
 	  gl_PointSize = pointsize;
@@ -51,12 +52,12 @@
 
       void main ()
       {
-	  vec2 circCoord = 2.0 * gl_PointCoord - 1.0;
+	  // vec2 circCoord = 2.0 * gl_PointCoord - 1.0;
 
-	  if (dot (circCoord, circCoord) > 1.0)
-	  {
-	      discard;
-	  }
+	  // if (dot (circCoord, circCoord) > 1.0)
+	  // {
+	  //     discard;
+	  // }
 	  
 	  color = vertexColor;
       }

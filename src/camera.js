@@ -15,6 +15,11 @@ class Camera
 	).normalized;
     }
 
+    get right ()
+    {
+	return this.direction.cross (this.up).normalized;
+    }
+
     get up ()
     {
 	return new Vec3 (0.0, 1.0, 0.0);

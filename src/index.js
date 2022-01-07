@@ -57,10 +57,12 @@ class Game
 
 	// Done with GL crap.
 
-	this.canvas.onclick = this.onclick.bind (this);
-	this.canvas.onmousemove = this.onmousemove.bind (this);
-	this.canvas.onkeyup = this.onkeyup.bind (this);
-	this.canvas.onkeydown = this.onkeydown.bind (this);
+	this.canvas.addEventListener ("click", this.onclick.bind (this), true);
+	this.canvas.addEventListener ("mousemove", this.onmousemove.bind (this), true);
+
+	// This oughta be done differently...
+	window.addEventListener ("keyup", this.onkeyup.bind (this), true);
+	window.addEventListener ("keydown", this.onkeydown.bind (this), true);
 
 	this.wpressed = false;
 	this.spressed = false;
@@ -87,18 +89,22 @@ class Game
 
 	if (this.wpressed) {
 	    this.camera.position = this.camera.position.add (
-		this.camera.direction.multiply (new Vec3 (this.deltaTime / 10000))
+		this.camera.direction.multiply (new Vec3 (this.deltaTime / 100))
 	    );
 	} else if (this.spressed) {
 	    this.camera.position = this.camera.position.subtract (
-		this.camera.direction.multiply (new Vec3 (this.deltaTime / 10000))
+		this.camera.direction.multiply (new Vec3 (this.deltaTime / 100))
 	    );	    
 	}
 
-	if (this.apressed) {
-	    
-	} else if (this.dpressed) {
-	    
+	if (this.dpressed) {
+	    this.camera.position = this.camera.position.add (
+		this.camera.right.multiply (new Vec3 (this.deltaTime / 100))
+	    );	    
+	} else if (this.apressed) {
+	    this.camera.position = this.camera.position.subtract (
+		this.camera.right.multiply (new Vec3 (this.deltaTime / 100))
+	    );	    	    
 	}
     }
     
@@ -129,7 +135,7 @@ class Game
 
     onkeyup (event)
     {
-	switch (event.keycode)
+	switch (event.keyCode)
 	{
 	    case 87:
 	    this.wpressed = false;
@@ -148,10 +154,9 @@ class Game
 
     onkeydown (event)
     {
-	switch (event.keycode)
+	switch (event.keyCode)
 	{
 	    case 87:
-	    console.log ("W is pressed")
 	    this.wpressed = true;
 	    break;
 	    case 83:

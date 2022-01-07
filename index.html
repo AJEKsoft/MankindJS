@@ -15,10 +15,10 @@
     <script type="x-shader/x-vertex" id="default.vs">
       #version 300 es
 
-      in vec3 position;
+      in ivec3 position;
       in vec3 color;
 
-      out vec3 fragcolor;
+      out vec4 vertexColor;
 
       uniform mat4 model, view, projection;
       uniform vec3 eye;
@@ -30,7 +30,7 @@
 	  gl_Position = projection * view * model * vec4(position, 1.0);
 	  gl_PointSize = pointsize;
 
-	  fragcolor = color;
+	  vertexColor = vec4 (normalize (color), 1.0);
       }
     </script>
     
@@ -39,7 +39,7 @@
 
       precision mediump float;
 
-      in vec3 fragcolor;
+      in vec4 vertexColor;
       
       out vec4 color;
 
@@ -52,7 +52,7 @@
 	      discard;
 	  }
 	  
-	  color = vec4 (gl_PointCoord.x, 1.0, 1.0, 1.0);
+	  color = vertexColor;
       }
     </script>
     

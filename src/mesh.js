@@ -10,8 +10,8 @@ class VertexMesh
 	this.vbo = gl.createBuffer ();
 	gl.bindBuffer (gl.ARRAY_BUFFER, this.vbo);
 
-	gl.enableVertexAttribArray (0);
 	gl.vertexAttribPointer (0, 3, gl.FLOAT, false, 0, 0);
+	gl.enableVertexAttribArray (0);
     }
 
     setup (gl)
@@ -56,8 +56,24 @@ class ChunkMesh extends VertexMesh
     constructor (gl)
     {
 	super (gl);
-
+	
+	this.vertices = new Array ();
 	this.colors = new Array ();
+
+	this.vao = gl.createVertexArray ();
+	gl.bindVertexArray (this.vao);
+
+	this.vbo = gl.createBuffer ();
+	
+	gl.bindBuffer (gl.ARRAY_BUFFER, this.vbo);
+	gl.enableVertexAttribArray (0);
+	gl.vertexAttribIPointer (0, 3, gl.INT, false, 0, 0);
+
+	this.cbo = gl.createBuffer ();
+	
+	gl.bindBuffer (gl.ARRAY_BUFFER, this.cbo);
+	gl.enableVertexAttribArray (1);
+	gl.vertexAttribPointer (1, 3, gl.UNSIGNED_BYTE, true, 0, 0);
     }
 
     generate (gl, chunk)
@@ -71,7 +87,7 @@ class ChunkMesh extends VertexMesh
 		    let block = chunk.getBlock (x, y, z);
 		    
 		    this.vertices.push (x, y, z);
-		    this.colors.push (block.color.x, block.color.y, block.color.z);
+		    this.colors.push (block.color.x * 255, block.color.y * 255, block.color.z * 255);
 		}
 	    }
 	}
@@ -81,7 +97,10 @@ class ChunkMesh extends VertexMesh
 
     setup (gl)
     {
-	gl.bufferData (gl.ARRAY_BUFFER, new Float32Array (this.vertices), gl.STATIC_DRAW);
+	gl.bindBuffer (gl.ARRAY_BUFFER, this.vbo);
+	gl.bufferData (gl.ARRAY_BUFFER, new Int32Array (this.vertices), gl.STATIC_DRAW);
+	gl.bindBuffer (gl.ARRAY_BUFFER, this.cbo);
+	gl.bufferData (gl.ARRAY_BUFFER, new Uint8Array (this.colors), gl.STATIC_DRAW);
     }
     
     render (gl)

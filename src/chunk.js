@@ -1,4 +1,4 @@
-const CHUNK_DIM = 32;
+const CHUNK_DIM = 8;
 const CHUNK_SIZE = CHUNK_DIM * CHUNK_DIM * CHUNK_DIM
 
 class Voxel

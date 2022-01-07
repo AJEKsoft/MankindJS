@@ -60,6 +60,7 @@ class ChunkMesh extends VertexMesh
 	gl.bindBuffer (gl.ARRAY_BUFFER, this.vbo);
 	gl.enableVertexAttribArray (0);
 	gl.vertexAttribIPointer (0, 3, gl.INT, false, 0, 0);
+	gl.vertexAttribDivisor (0, 0);
 
 	this.colors = new Array ();
 	

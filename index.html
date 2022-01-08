@@ -16,40 +16,33 @@
       #version 300 es
 
       in ivec3 position;
-      in float color;
+      in uint color;
 
-      out vec4 vertexColor;
+      out vec4 vcolor;
 
       uniform mat4 model, view, projection;
       uniform vec3 eye;
 
       const float pointsize = 1000.0;
-      const int chunksize = 8;
+      // Should be an uniform, I think.
+      const int chunksize = 16;
       
       void main ()
       {
 	  ivec3 pos = position;
-	  // hardcoded... make the 16 be an uniform or sum bull
-	  // Maybe use gl_VertexID and no instancing?
-	  pos.z += gl_InstanceID % chunksize;	  
 	  pos.x += gl_InstanceID / (chunksize * chunksize);
-
-	  int y = (gl_InstanceID / chunksize) % chunksize;
-	  pos.y += y;
-
-	  // This fills out the space inbetween chunk layers.
-	  
-	  if (y % 2 == 0)
-	  {
-	      pos.z += 1;
-	      pos.x += 1;
-	  }
-
+	  pos.y += (gl_InstanceID / chunksize) % chunksize;
+	  pos.z += gl_InstanceID % chunksize;	  
 	  
 	  gl_Position = projection * view * model * vec4(pos, 1.0);
 	  gl_PointSize = pointsize;
 
-	  vertexColor = vec4 (color, 1.0, color, 1.0);
+	  // Calculate the color.
+	  float r = float ((color >> 0) & uint (0x7)) / 7.0;
+	  float g = float ((color >> 3) & uint (0x7)) / 7.0;
+	  float b = float ((color >> 6) & uint (0x3)) / 3.0;
+
+	  vcolor = vec4 (r, g, b, 1.0);
       }
     </script>
     
@@ -58,20 +51,13 @@
 
       precision mediump float;
 
-      in vec4 vertexColor;
+      in vec4 vcolor;
       
       out vec4 color;
 
       void main ()
       {
-	  vec2 circCoord = 2.0 * gl_PointCoord - 1.0;
-
-	  if (dot (circCoord, circCoord) > 1.0)
-	  {
-	      discard;
-	  }
-	  
-	  color = vertexColor;
+	  color = vcolor;
       }
     </script>
     

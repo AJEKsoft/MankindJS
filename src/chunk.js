@@ -1,5 +1,12 @@
-const CHUNK_DIM = 8;
+const CHUNK_DIM = 16;
 const CHUNK_SIZE = CHUNK_DIM * CHUNK_DIM * CHUNK_DIM
+
+// Voxels store color as one byte per vertex, so 3 bits for r, 3 bits
+// for g, and 2 bits for b.
+function color8 (r, g, b)
+{
+    return ((r & 0x7) << 0) | ((g & 0x7) << 3) | ((b & 0x3) << 6);
+}
 
 class Voxel
 {
@@ -25,9 +32,11 @@ class Chunk
     {
 	for (let i = 0; i < CHUNK_SIZE; ++i)
 	{
-	    this.blocks[i] = new Voxel(
-		Math.random () * 255
-	    );
+	    this.blocks[i] = new Voxel (color8 (
+		Math.floor (Math.random () * 8),
+		Math.floor (Math.random () * 8),
+		Math.floor (Math.random () * 4)
+	    ));
 	}
     }
 }

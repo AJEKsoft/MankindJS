@@ -67,7 +67,7 @@ class ChunkMesh extends VertexMesh
 	this.cbo = gl.createBuffer ();
 	gl.bindBuffer (gl.ARRAY_BUFFER, this.cbo);
 	gl.enableVertexAttribArray (1);
-	gl.vertexAttribPointer (1, 1, gl.UNSIGNED_BYTE, true, 0, 0);
+	gl.vertexAttribIPointer (1, 1, gl.UNSIGNED_BYTE, false, 0, 0);
 	gl.vertexAttribDivisor (1, 1);
     }
 
@@ -80,8 +80,6 @@ class ChunkMesh extends VertexMesh
 		for (let z = 0; z < CHUNK_DIM; ++z)
 		{
 		    let block = chunk.getBlock (x, y, z);
-		    
-		    this.vertices.push (x, y, z);
 		    this.colors.push (block.color);
 		}
 	    }

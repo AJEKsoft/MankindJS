@@ -53,11 +53,12 @@ class Game
 	    this.gl, "model", new Mat4 ()
 	);
 
-	let chunk = new Chunk ();
+	let chunk = new Chunk (this.gl, new Vec3 ());
 	chunk.random ();
-	
+
 	this.chunkmesh = new ChunkMesh (this.gl);
-	this.chunkmesh.generate (this.gl, chunk);
+	this.chunkmesh.generate (chunk);
+	this.chunkmesh.setup (this.gl);
 
 	// Done with GL crap.
 

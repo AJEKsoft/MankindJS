@@ -1,4 +1,4 @@
-const CHUNK_DIM = 16;
+const CHUNK_DIM = 32;
 const CHUNK_SIZE = CHUNK_DIM * CHUNK_DIM * CHUNK_DIM
 
 // Voxels store color as one byte per vertex, so 3 bits for r, 3 bits
@@ -12,14 +12,16 @@ class Voxel
 {
     constructor (color)
     {
-	this.color = color;	// 0-255
+	this.color = color;	// 0–255
     }
 }
 
 class Chunk
 {
-    constructor ()
+    constructor (gl, position)
     {
+	this.position = position;
+	this.mesh = new ChunkMesh (gl, this);
 	this.blocks = new Array (CHUNK_SIZE);
     }
 
